@@ -1,9 +1,10 @@
 "use client";
 
+import axios from "axios";
 import AuthSocialButton from "./AuthSocialButton";
 import Button from "@/app/components/Button";
 import { Input } from "@/app/components/Inputs/Input";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FieldValues,
   SubmitErrorHandler,
@@ -11,12 +12,24 @@ import {
   useForm,
 } from "react-hook-form";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import toast from "react-hot-toast";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Variant = "LOGIN" | "REGISTER";
 
 export const AuthForm = () => {
+  const session = useSession();
+  const router = useRouter();
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+    router.push('/users')
+    }
+  }, [session?.status,router]);
+
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
@@ -39,16 +52,42 @@ export const AuthForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     if (variant === "REGISTER") {
-      // Axios Register
+      axios
+        .post("/api/register", data)
+        .catch(() => toast.error("Üzgünüm! birşeyler ters gitti :/"))
+        .finally(() => setIsLoading(false));
     }
     if (variant === "LOGIN") {
-      //Axios Login
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Geçersiz kullanıcı adı veya şifre");
+          }
+          if (callback?.ok && !callback?.error) {
+            toast.success("Giriş başarılı!");
+            router.push('/users')
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   };
 
   const socialAction = (action: string) => {
     setIsLoading(false);
-    // NextAuth Social Login Action
+    signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error("Geçersiz kullanıcı adı veya şifre");
+        }
+        if (callback?.ok && !callback?.error) {
+          toast.success(`Giriş başarılı!`);
+          router.push('/users')
+        }
+      })
+      .then(() => setIsLoading(false));
   };
 
   return (
@@ -57,6 +96,7 @@ export const AuthForm = () => {
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
             <Input
+              disabled={isLoading}
               id="name"
               errors={errors}
               label="İsim soyisim"
@@ -69,6 +109,7 @@ export const AuthForm = () => {
             errors={errors}
             label="E-mail adresi"
             register={register}
+            disabled={isLoading}
           ></Input>
           <Input
             id="password"
@@ -76,6 +117,7 @@ export const AuthForm = () => {
             errors={errors}
             label="Şifre"
             register={register}
+            disabled={isLoading}
           ></Input>
           <div>
             <Button disabled={isLoading} fullWidth type="submit">
@@ -97,7 +139,7 @@ export const AuthForm = () => {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="bg-white px-2 text-gray-500">
-                Diğer yöntem ile giriş yap
+                Diğer yöntemler
               </span>
             </div>
           </div>
