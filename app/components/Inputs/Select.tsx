@@ -36,11 +36,14 @@ const Select: React.FC<SelectProps> = ({
         value={value}
         onChange={onChange}
         isMulti
+        placeholder="Üye seçimi..."
+        loadingMessage={()=>"Yükleniyor"}
+        noOptionsMessage={()=>"Seçilecek nesne bulunamadı"}
         options={options}
         menuPortalTarget={document.body}
-        // styles={{
-        //   menuPortal: (base) => ({ ...base, zIndex: 9999 })
-        // }}
+        styles={{
+          menuPortal: (base) => ({ ...base, zIndex: 9999 })
+        }}
         classNames={{
           control: () => 'text-sm',
         }}

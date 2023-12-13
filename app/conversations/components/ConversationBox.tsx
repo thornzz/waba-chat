@@ -55,14 +55,14 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
 
   const lastMessageText = useMemo(() => {
     if (lastMessage?.image) {
-      return 'Fotoğraf gönderildi.';
+      return 'Sent an image';
     }
 
     if (lastMessage?.body) {
       return lastMessage?.body
     }
 
-    return 'Bir sohbet başlatıldı.';
+    return 'Started a conversation';
   }, [lastMessage]);
 
   return ( 

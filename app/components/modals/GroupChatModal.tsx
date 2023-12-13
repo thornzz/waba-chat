@@ -9,11 +9,12 @@ import {
   useForm 
 } from 'react-hook-form';
 import { User } from '@prisma/client';
+
+import Input from "../inputs/Input";
 import Select from '../inputs/Select';
 import Modal from './Modal';
 import Button from '../Button';
 import { toast } from 'react-hot-toast';
-import Input from '../inputs/Input';
 
 interface GroupChatModalProps {
   isOpen?: boolean;
@@ -74,15 +75,15 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
                 text-gray-900
               "
               >
-                Create a group chat
+                Grup sohbeti
               </h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">
-              Create a chat with more than 2 people.
+            En az iki kişiden oluşan grup sohbeti oluştur
             </p>
             <div className="mt-10 flex flex-col gap-y-8">
               <Input
                 disabled={isLoading}
-                label="Name" 
+                label="Grup adı" 
                 id="name" 
                 errors={errors} 
                 required 
@@ -90,7 +91,7 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
               />
               <Select
                 disabled={isLoading}
-                label="Members" 
+                label="Üyeler" 
                 options={users.map((user) => ({ 
                   value: user.id, 
                   label: user.name 
@@ -110,10 +111,10 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
             type="button"
             secondary
           >
-            Cancel
+            İptal
           </Button>
           <Button disabled={isLoading} type="submit">
-            Create
+            Oluştur
           </Button>
         </div>
       </form>
