@@ -1,27 +1,28 @@
-"use client";
+'use client';
 
 import DesktopItem from "./DesktopItem";
 import useRoutes from "@/app/hooks/useRoutes";
-//import SettingsModal from "./SettingsModal";
+import SettingsModal from "./SettingsModal";
 import { useState } from "react";
-//import Avatar from "../Avatar";
-import { User } from "@prisma/client";
 import Avatar from "../Avatar";
+import { User } from "@prisma/client";
 
 interface DesktopSidebarProps {
-  currentUser: User;
+  currentUser: User
 }
 
-const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
+const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
+  currentUser
+}) => {
   const routes = useRoutes();
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log({ currentUser }, "TEST");
+  console.log({ currentUser, }, 'TEST')
 
-  return (
+  return ( 
     <>
-      <div
-        className="
+      <SettingsModal currentUser={currentUser} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <div className="
         hidden 
         lg:fixed 
         lg:inset-y-0 
@@ -36,8 +37,7 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
         lg:flex
         lg:flex-col
         justify-between
-      "
-      >
+      ">
         <nav className="mt-4 flex flex-col justify-between">
           <ul role="list" className="flex flex-col items-center space-y-1">
             {routes.map((item) => (
@@ -62,7 +62,7 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
         </nav>
       </div>
     </>
-  );
-};
-
+   );
+}
+ 
 export default DesktopSidebar;
