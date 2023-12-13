@@ -61,8 +61,8 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
           className="
             lg:hidden 
             block 
-            text-sky-500 
-            hover:text-sky-600 
+            text-green-500 
+            hover:text-green-600 
             transition 
             cursor-pointer
           "

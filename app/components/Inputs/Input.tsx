@@ -11,7 +11,7 @@ interface InputProps {
   errors: FieldErrors;
   disabled?: boolean;
 }
-export const Input: React.FC<InputProps> = ({
+const Input: React.FC<InputProps> = ({
   label,
   id,
   type,
@@ -62,3 +62,4 @@ export const Input: React.FC<InputProps> = ({
     </div>
   );
 };
+export default Input;

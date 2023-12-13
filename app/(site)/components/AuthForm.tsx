@@ -3,7 +3,7 @@
 import axios from "axios";
 import AuthSocialButton from "./AuthSocialButton";
 import Button from "@/app/components/Button";
-import { Input } from "@/app/components/Inputs/Input";
+import Input from "@/app/components/inputs/Input";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   FieldValues,
