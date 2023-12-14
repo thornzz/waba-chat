@@ -63,7 +63,7 @@ export const AuthForm = () => {
     if (variant === "LOGIN") {
       signIn("credentials", {
         ...data,
-        redirect: false,
+        redirect: true,
       })
         .then((callback) => {
           if (callback?.error) {
@@ -71,7 +71,7 @@ export const AuthForm = () => {
           }
           if (callback?.ok && !callback?.error) {
             toast.success("Giriş başarılı!");
-            router.push('/users')
+           // router.push('/users')
           }
         })
         .finally(() => setIsLoading(false));
