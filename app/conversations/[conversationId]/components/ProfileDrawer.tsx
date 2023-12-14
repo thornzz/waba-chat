@@ -30,7 +30,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   const otherUser = useOtherUser(data);
   
   const joinedDate = useMemo(() => {
-    return format(new Date(otherUser.createdAt), 'PP');
+    return format(new Date(otherUser.createdAt), 'dd.MM.yyyy');
   }, [otherUser.createdAt]);
   
   const title = useMemo(() => {
