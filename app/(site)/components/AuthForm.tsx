@@ -3,7 +3,7 @@
 import axios from "axios";
 import AuthSocialButton from "./AuthSocialButton";
 import Button from "@/app/components/Button";
-import Input from "@/app/components/Inputs/Input";
+import Input from "../../components/Inputs/Input";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   FieldValues,
@@ -55,7 +55,10 @@ export const AuthForm = () => {
       axios
         .post("/api/register", data)
         .catch(() => toast.error("Üzgünüm! birşeyler ters gitti :/"))
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+          setIsLoading(false);
+          router.push('/users');
+    });
     }
     if (variant === "LOGIN") {
       signIn("credentials", {

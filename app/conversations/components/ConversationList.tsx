@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { find, uniq } from 'lodash';
 
 import useConversation from "@/app/hooks/useConversation";
-//import { pusherClient } from "@/app/libs/pusher";
+import { pusherClient } from "@/app/libs/pusher";
 import GroupChatModal from "@/app/components/modals/GroupChatModal";
 import ConversationBox from "./ConversationBox";
 import { FullConversationType } from "@/app/types";
@@ -41,7 +41,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
       return;
     }
 
-    // pusherClient.subscribe(pusherKey);
+    pusherClient.subscribe(pusherKey);
 
     const updateHandler = (conversation: FullConversationType) => {
       setItems((current) => current.map((currentConversation) => {
@@ -70,12 +70,16 @@ const ConversationList: React.FC<ConversationListProps> = ({
       setItems((current) => {
         return [...current.filter((convo) => convo.id !== conversation.id)]
       });
+      if(conversationId=== conversation.id){
+        router.push('/conversations');
+      }
     }
 
-    // pusherClient.bind('conversation:update', updateHandler)
-    // pusherClient.bind('conversation:new', newHandler)
-    // pusherClient.bind('conversation:remove', removeHandler)
-  }, [pusherKey, router]);
+    pusherClient.bind('conversation:update', updateHandler)
+    pusherClient.bind('conversation:new', newHandler)
+    pusherClient.bind('conversation:remove', removeHandler)
+
+  }, [pusherKey, router,conversationId]);
 
   return (
     <>
@@ -99,7 +103,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         <div className="px-5">
           <div className="flex justify-between mb-4 pt-4">
             <div className="text-2xl font-bold text-neutral-800">
-              Messages
+              Mesajlar
             </div>
             <div 
               onClick={() => setIsModalOpen(true)} 
