@@ -41,9 +41,7 @@ const Select: React.FC<SelectProps> = ({
         noOptionsMessage={()=>"Seçilecek nesne bulunamadı"}
         options={options}
         menuPortalTarget={document.body}
-        styles={{
-          menuPortal: (base) => ({ ...base, zIndex: 9999 })
-        }}
+        styles={{ menuPortal: (base: any) => ({ ...base, zIndex: 9999 }) }}
         classNames={{
           control: () => 'text-sm',
         }}
